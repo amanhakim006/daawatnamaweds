@@ -28,7 +28,10 @@
             letter-spacing: 2px; animation: pulse 1.5s infinite;
             transition: opacity 0.4s ease;
         }
-        .gift-container { position: relative; cursor: pointer; width: 120px; height: 100px; }
+        .gift-container { 
+            position: relative; cursor: pointer; width: 120px; height: 100px; 
+            transition: opacity 0.6s ease; /* For fading out the box */
+        }
         .gift-box {
             position: absolute; bottom: 0; width: 100%; height: 80px;
             background: #c0392b; border-radius: 5px; box-shadow: inset -10px 0 20px rgba(0,0,0,0.2);
@@ -40,39 +43,42 @@
         .gift-lid {
             position: absolute; top: 0; left: -5%; width: 110%; height: 25px;
             background: #e74c3c; border-radius: 3px; box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-            transition: transform 1s ease, opacity 1s ease; transform-origin: bottom left; z-index: 2;
+            transition: transform 0.6s ease, opacity 0.6s ease; transform-origin: bottom left; z-index: 2;
         }
         .gift-lid::before {
             content: ''; position: absolute; left: 50%; transform: translateX(-50%);
             width: 20px; height: 100%; background: #f1c40f;
         }
+        
+        /* Gift Lid Fly Off Animation */
         .gift-container.open .gift-lid { transform: rotate(-110deg) translate(-20px, -40px); opacity: 0; }
         
+        /* New Center Surprise Text Animation */
         .surprise-text {
-            position: absolute; top: 40px; left: 50%; transform: translate(-50%, 0) scale(0);
-            color: #f1c40f; font-family: 'Great Vibes', cursive; font-size: 3.5rem;
-            white-space: nowrap; opacity: 0; transition: transform 1s ease 0.5s, opacity 1s ease 0.5s;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
+            color: #f1c40f; font-family: 'Great Vibes', cursive; font-size: 4.5rem;
+            white-space: nowrap; opacity: 0; transition: all 1s ease;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+            pointer-events: none; /* So it doesn't block clicks */
         }
-        .gift-container.open .surprise-text { transform: translate(-50%, -130px) scale(1); opacity: 1; }
+        .surprise-text.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         /* === SCROLL ANIMATIONS === */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* === HERO SECTION (UPDATED FOR PANNING ANIMATION) === */
+        /* === HERO SECTION (WITH PANNING ANIMATION) === */
         header {
             height: 100vh; 
             background: url('kamyar-ayra(1).jpg') no-repeat;
             background-size: cover;
-            /* Animation added here: moves from 0% to 100% over 20 seconds smoothly */
             animation: panBackground 20s ease-in-out infinite alternate;
             position: relative; 
             display: flex; justify-content: center; align-items: center; text-align: center;
         }
 
-        /* Keyframes for left-to-right background movement */
         @keyframes panBackground {
             0% { background-position: 0% 50%; }
             100% { background-position: 100% 50%; }
@@ -137,6 +143,7 @@
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 3.5rem; }
             .hero-content p { font-size: 1.1rem; letter-spacing: 2px; }
+            .surprise-text { font-size: 3rem; } /* Adjusted text size for mobile */
             section { padding: 50px 15px; }
             section h2 { font-size: 2.8rem; }
             .person img { width: 180px; height: 180px; }
@@ -162,14 +169,17 @@
         Your browser does not support the audio element.
     </audio>
 
-    <!-- 3D Gift Box Preloader -->
+    <!-- 3D Gift Box Preloader (UPDATED STRUCTURE) -->
     <div id="gift-screen">
-        <div class="tap-text">Tap the Gift to Open</div>
-        <div class="gift-container" onclick="openGift()">
+        <div class="tap-text" id="tap-text">Tap the Gift to Open</div>
+        
+        <div class="gift-container" id="gift-container" onclick="openGift()">
             <div class="gift-box"></div>
             <div class="gift-lid"></div>
-            <div class="surprise-text">You are Invited!</div>
         </div>
+        
+        <!-- Extracted from gift container for direct center popup -->
+        <div class="surprise-text" id="surprise-text">You are Invited!</div>
     </div>
 
     <!-- Main Content (Hidden Initially) -->
@@ -249,15 +259,16 @@
 
     </div>
 
-    <!-- JavaScript for Dynamic Interactions -->
+    <!-- JavaScript for Dynamic Interactions (UPDATED) -->
     <script>
         // 1. Gift Box Opening Logic
         function openGift() {
-            const container = document.querySelector('.gift-container');
+            const container = document.getElementById('gift-container');
             const screen = document.getElementById('gift-screen');
             const mainContent = document.getElementById('main-content');
             const music = document.getElementById('bgMusic');
-            const tapText = document.querySelector('.tap-text');
+            const tapText = document.getElementById('tap-text');
+            const surpriseText = document.getElementById('surprise-text');
             
             // Immediately hide the tap guidance text
             if(tapText) tapText.style.opacity = '0';
@@ -267,19 +278,25 @@
                 console.log("Music Autoplay Blocked or Missing File:", error);
             });
             
-            // Open 3D Lid
+            // 1. Open Lid
             container.classList.add('open');
             
-            // Allow the "You are Invited!" surprise text to be seen before transition
+            // 2. Fade out box and show beautiful center text
+            setTimeout(() => {
+                container.style.opacity = '0'; // Hide the box completely
+                surpriseText.classList.add('show'); // Fade in the "You are Invited!" text
+            }, 600); // Wait for the lid to pop up first
+            
+            // 3. Fade out the whole black screen to reveal website
             setTimeout(() => {
                 screen.style.opacity = '0';
                 setTimeout(() => {
                     screen.style.visibility = 'hidden';
                     screen.style.display = 'none';
                     mainContent.style.opacity = '1';
-                    revealElements(); // Trigger instant view animation check
+                    revealElements(); // Trigger scroll animations
                 }, 1000);
-            }, 2500); // 2.5 seconds total reading time
+            }, 3500); // Hold the "You are Invited" text on screen for a few seconds
         }
 
         // 2. Responsive Scroll Reveal Animations
