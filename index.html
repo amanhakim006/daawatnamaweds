@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kamyar & Ayra - Wedding Invitation</title>
+    <!-- Google Fonts for Elegant Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* === BASE STYLES & RESPONSIVENESS === */
@@ -60,11 +61,23 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* === HERO SECTION === */
+        /* === HERO SECTION (UPDATED FOR PANNING ANIMATION) === */
         header {
-            height: 100vh; background: url('kamyar-ayra(1).jpg') center/cover no-repeat fixed;
-            position: relative; display: flex; justify-content: center; align-items: center; text-align: center;
+            height: 100vh; 
+            background: url('kamyar-ayra(1).jpg') no-repeat;
+            background-size: cover;
+            /* Animation added here: moves from 0% to 100% over 20 seconds smoothly */
+            animation: panBackground 20s ease-in-out infinite alternate;
+            position: relative; 
+            display: flex; justify-content: center; align-items: center; text-align: center;
         }
+
+        /* Keyframes for left-to-right background movement */
+        @keyframes panBackground {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
         .header-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); }
         .hero-content { position: relative; z-index: 1; color: white; padding: 0 20px; }
         .hero-content h1 { font-size: 5.5rem; margin: 10px 0; color: #fff; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
@@ -122,7 +135,6 @@
 
         /* === MEDIA QUERIES FOR MOBILE VIEW === */
         @media (max-width: 768px) {
-            header { background-attachment: scroll; } /* Smooth scroll for mobile browsers */
             .hero-content h1 { font-size: 3.5rem; }
             .hero-content p { font-size: 1.1rem; letter-spacing: 2px; }
             section { padding: 50px 15px; }
@@ -144,11 +156,13 @@
 </head>
 <body>
 
+    <!-- Background Music Player (Hidden) -->
     <audio id="bgMusic" loop>
         <source src="wedding-song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
+    <!-- 3D Gift Box Preloader -->
     <div id="gift-screen">
         <div class="tap-text">Tap the Gift to Open</div>
         <div class="gift-container" onclick="openGift()">
@@ -158,8 +172,10 @@
         </div>
     </div>
 
+    <!-- Main Content (Hidden Initially) -->
     <div id="main-content" style="opacity: 0; transition: opacity 1.5s ease;">
         
+        <!-- Hero Section -->
         <header>
             <div class="header-overlay"></div>
             <div class="hero-content reveal">
@@ -169,6 +185,7 @@
             </div>
         </header>
 
+        <!-- Groom & Bride Section -->
         <section id="couple">
             <h2 class="reveal">The Groom & The Bride</h2>
             <p class="reveal">Two souls, one heart. We are thrilled to celebrate our special day with you.</p>
@@ -186,10 +203,12 @@
             </div>
         </section>
 
+        <!-- Image Gallery/Breaker 1 -->
         <section style="padding: 0 20px;">
             <img src="kamyar-ayra2images(1).jpg" alt="Beautiful Moments" class="img-breaker reveal">
         </section>
 
+        <!-- Countdown Timer Section -->
         <section id="countdown">
             <h2 class="reveal">The Big Day is Coming!</h2>
             <div id="countdown-timer" class="reveal">
@@ -200,10 +219,12 @@
             </div>
         </section>
 
+        <!-- Image Gallery/Breaker 2 -->
         <section style="padding: 0 20px;">
             <img src="kamyar-ayra-images(1).jpg" alt="Our Memories" class="img-breaker reveal">
         </section>
 
+        <!-- Event Details & Map Section (Pakistan Venue) -->
         <section id="events">
             <h2 class="reveal">When & Where</h2>
             <div class="event-details reveal">
@@ -214,11 +235,13 @@
                 <p><em>Jashn-e-Shaadi mein aapki shirkati humare liye baais-e-musarrat hogi!</em></p>
             </div>
             
+            <!-- Google Maps Pakistan Integration -->
             <div class="map-container reveal">
                 <iframe src="https://maps.google.com/maps?q=Pearl%20Continental%20Hotel%20Lahore&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>
 
+        <!-- Modern Footer (No Image below Map) -->
         <footer>
             We can't wait to share our beautiful beginnings with you. Please join us in making our day unforgettable.<br>
             <strong>- Kamyar & Ayra -</strong>
@@ -226,6 +249,7 @@
 
     </div>
 
+    <!-- JavaScript for Dynamic Interactions -->
     <script>
         // 1. Gift Box Opening Logic
         function openGift() {
@@ -264,7 +288,7 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 80; // Trigger slightly earlier on mobile layout
+                var elementVisible = 80; 
                 
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
