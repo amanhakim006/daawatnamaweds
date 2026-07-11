@@ -127,7 +127,7 @@
         /* === HERO SECTION === */
         header {
             height: 100vh;
-            background: url('kamyar-ayra.jpg') center/cover no-repeat fixed;
+            background: url('kamyar-ayra(1).jpg') center/cover no-repeat fixed;
             position: relative;
             display: flex;
             justify-content: center;
@@ -181,8 +181,8 @@
             min-width: 250px;
         }
         .person img {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             object-fit: cover;
             border-radius: 50%;
             border: 5px solid #c9933b;
@@ -196,7 +196,7 @@
         /* Full Width Image Breakers */
         .img-breaker {
             width: 100%;
-            height: 400px;
+            height: 450px;
             object-fit: cover;
             margin: 40px 0;
             border-radius: 10px;
@@ -293,12 +293,12 @@
             <p class="reveal">Two souls, one heart. We are thrilled to celebrate our special day with you.</p>
             <div class="couple-wrapper">
                 <div class="person reveal">
-                    <img src="images-kamyar-ayra.jpg" alt="Groom Kamyar">
+                    <img src="kamyar.jpg" alt="Groom Kamyar">
                     <h3>Kamyar</h3>
                     <p>The man who found his forever.</p>
                 </div>
                 <div class="person reveal">
-                    <img src="kamyar-ayra-images.jpg" alt="Bride Ayra">
+                    <img src="Ayra.jpg" alt="Bride Ayra">
                     <h3>Ayra</h3>
                     <p>The woman who stole his heart.</p>
                 </div>
@@ -306,7 +306,7 @@
         </section>
 
         <section style="padding: 0 20px;">
-            <img src="kamyar-ayra2images.jpg" alt="Beautiful Moments" class="img-breaker reveal">
+            <img src="kamyar-ayra2images(1).jpg" alt="Beautiful Moments" class="img-breaker reveal">
         </section>
 
         <section id="countdown">
@@ -320,7 +320,7 @@
         </section>
 
         <section style="padding: 0 20px;">
-            <img src="kamyar-ayra3images.jpg" alt="Our Memories" class="img-breaker reveal">
+            <img src="kamyar-ayra-images(1).jpg" alt="Our Memories" class="img-breaker reveal">
         </section>
 
         <section id="events">
@@ -336,6 +336,10 @@
             <div class="map-container reveal">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120562.15579986348!2d72.86241031388654!3d19.21396827038318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8fcfe76fd59%3A0xcf367d85f7c50283!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
+        </section>
+
+        <section style="padding: 0 20px;">
+            <img src="images-kamyar-ayra(1).jpg" alt="Together Forever" class="img-breaker reveal">
         </section>
 
         <footer>
@@ -354,18 +358,15 @@
             
             container.classList.add('open');
             
-            // Wait for animation, then hide gift screen and show main content
             setTimeout(() => {
                 screen.style.opacity = '0';
                 setTimeout(() => {
                     screen.style.visibility = 'hidden';
                     screen.style.display = 'none';
                     mainContent.style.opacity = '1';
-                    
-                    // Trigger scroll animations immediately for visible items
                     revealElements();
-                }, 1000); // Wait for fade out
-            }, 2000); // Wait for gift to pop open
+                }, 1000);
+            }, 2000);
         }
 
         // 2. Scroll Animation (Fade In Up)
@@ -383,8 +384,7 @@
         }
         window.addEventListener("scroll", revealElements);
 
-        // 3. Countdown Timer Logic
-        // Aap yahan apni actual wedding date set kar sakte hain (Format: Month Day, Year Time)
+        // 3. Countdown Timer Logic (Dec 25, 2026)
         const weddingDate = new Date("Dec 25, 2026 18:00:00").getTime();
 
         const timer = setInterval(function() {
